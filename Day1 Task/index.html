@@ -1,0 +1,147 @@
+<html>
+    <head>
+        <link href="https://fonts.googleapis.com/css2?family=Italiana&display=swap" rel="stylesheet">
+        <style>
+        body {
+            background-color: #FFFFCC;
+        }
+        h1 {
+            font-family: 'Italic';
+            background-color: #8B0000;
+            letter-spacing: 6px;
+            color: white;
+            padding: 12px 0;
+            text-align: center;
+            border-bottom: 3px solid #600000;
+            margin-top: 0;
+            margin-bottom: 30px;
+            font-size: 2.2em;
+        }
+        .green-box {
+            background-color: #228B22;
+            color: white;
+            padding: 8px 16px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+            width: 100%;
+            box-sizing: border-box;
+            text-align: left;
+        }
+        .sub-link {
+            color: #800080;
+            font-size: 1em;
+            margin-bottom: 16px;
+            display: block;
+            margin-left: 4px;
+        }
+        h5 {
+            color: #888888;
+            font-weight: normal;
+            margin-top: 30px;
+        }
+        table {
+            border-collapse: collapse;
+            border: 4px double black;
+        }
+        td {
+            border: 2px double black;
+            padding: 10px;
+            text-align: center;
+        }
+        </style>
+        <script>
+        function validateForm(event) {
+            event.preventDefault();
+            var name = document.getElementById('name').value.trim();
+            var comment = document.getElementById('comment').value.trim();
+            var male = document.getElementById('male').checked;
+            var female = document.getElementById('female').checked;
+
+            if (name === "") {
+                alert("Please enter your name.");
+                document.getElementById('name').focus();
+                return false;
+            }
+            if (comment === "") {
+                alert("Please enter your comment.");
+                document.getElementById('comment').focus();
+                return false;
+            }
+            if (!male && !female) {
+                alert("Please select Male or Female.");
+                return false;
+            }
+            alert("Form submitted successfully!");
+            // Optionally, you can submit the form here if needed:
+            // event.target.submit();
+            return true;
+        }
+        </script>
+    </head>
+    <body>
+        <h1>My First Webpage</h1>
+        <div class="green-box">What this is</div>
+        <p>Welcome to my first Webpage. I created this webpage without the assistance of a program editor. Just my little text editor and learn <b>understanding of html.</b></p>
+        <div class="green-box">Why this is</div>
+        <ul>
+            <li>To learn Html</li>
+            <li>List element
+                <ol>
+                    <li>Home</li>
+                    <li>FAQ</li>
+                    <li>Contact</li>
+                    <li>About</li>
+                </ol>
+            </li>
+            <li>Here i have created ordered and unordered list</li>
+        </ul>
+        <div class="green-box">ZeusLearning.com</div>
+        <a class="sub-link" href="https://www.zeuslearning.com/" target="_blank">This link will open zeuslearning.com in new tab</a>
+        <div class="green-box" style="margin-top:10px;">On click of following image navigate to Google.com</div>
+        <a href="https://www.google.co.in/"><img src="google.jpg" width="300" height="200" style="margin:12px 0 24px 0;border:1px dashed #bbb;"></a>
+        <h5>Some random table</h5>
+        <table>
+            <tr>
+                <td>Row 1, Col 1</td>
+                <td>Row 1, Col 2</td>
+                <td>Row 1, Col 3</td>
+            </tr>
+            <tr>
+                <td>Row 2, Col 1</td>
+                <td>Row 2, Col 2</td>
+                <td>Row 2, Col 3</td>
+            </tr>
+            <tr>
+                <td>Row 3, Col 1</td>
+                <td>Row 3, Col 2</td>
+                <td>Row 3, Col 3</td>
+            </tr>
+            <tr>
+                <td>Row 4, Col 1</td>
+                <td>Row 4, Col 2</td>
+                <td>Row 4, Col 3</td>
+            </tr>
+        </table> 
+        <h5>Some random form</h5>
+        <form>
+            <label for="name">Name:</label><br />
+            <input type="text" id="name" name="name" required /><br /><br />
+            
+            <label for="comment">Comment:</label><br />
+            <textarea id="comment" name="comment" rows="4" cols="30" required></textarea><br /><br />
+            
+            Gender:<br />
+            <input type="radio" id="male" name="gender" value="male" required />
+            <label for="male">Male</label><br />
+            
+            <input type="radio" id="female" name="gender" value="female" />
+            <label for="female">Female</label><br />
+            
+            <input type="radio" id="other" name="gender" value="other" />
+            <label for="other">Other</label><br /><br />
+            
+            <button type="submit">Submit query</button>
+        </form>
+    </body>
+</html>
