@@ -1,0 +1,81 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+.container {
+  display: grid;
+  grid-template-areas:
+    "header header"
+    "sidebar content1"
+    "sidebar content2 content3"
+    "footer footer";
+  grid-template-columns: 1fr 2fr;
+  grid-template-rows: auto;
+  gap: 10px;
+  padding: 10px;
+  height: 100vh;
+  box-sizing: border-box;
+  background: #f0f0f0;
+}
+
+.header {
+  grid-area: header;
+  background: linear-gradient(to right, #7f00ff, #e100ff);
+  padding: 20px;
+  text-align: center;
+  color: white;
+}
+
+.sidebar {
+  grid-area: sidebar;
+  background: linear-gradient(to bottom, #00d2ff, #3a7bd5);
+  padding: 20px;
+  text-align: center;
+  color: white;
+}
+
+.content1 {
+  grid-area: content1;
+  background: linear-gradient(to bottom right, #00c6ff, #0072ff);
+  padding: 20px;
+  text-align: center;
+  color: white;
+}
+
+.content2 {
+  grid-area: content2;
+  background: linear-gradient(to bottom right, #2193b0, #6dd5ed);
+  padding: 20px;
+  text-align: center;
+  color: white;
+}
+
+.content3 {
+  grid-area: content3;
+  background: linear-gradient(to bottom right, #00c9ff, #92fe9d);
+  padding: 20px;
+  text-align: center;
+  color: white;
+}
+
+.footer {
+  grid-area: footer;
+  background: linear-gradient(to right, #654ea3, #eaafc8);
+  padding: 20px;
+  text-align: center;
+  color: white;
+}
+
+/* Adjust layout for content2 and content3 to be side-by-side */
+@media screen and (min-width: 600px) {
+  .container {
+    grid-template-areas:
+      "header header"
+      "sidebar content1"
+      "sidebar content2 content3"
+      "footer footer";
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: auto;
+  }
+}
