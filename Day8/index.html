@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Excel Grid Canvas Demo</title>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+        #container {
+            position: absolute;
+            left: 0; top: 0; right: 0; bottom: 0;
+            width: 100vw;
+            height: 100vh;
+            box-sizing: border-box;
+        }
+        #colHeaderCanvas {
+            position: absolute;
+            left: 50px;
+            top: 0;
+            z-index: 2;
+            background: #f0f0f0;
+        }
+        #rowHeaderCanvas {
+            position: absolute;
+            left: 0;
+            top: 24px;
+            z-index: 2;
+            background: #f0f0f0;
+        }
+        #mainGridCanvas {
+            position: absolute;
+            left: 50px;
+            top: 24px;
+            z-index: 1;
+            background: #fff;
+            cursor:cell;
+        }
+        /* Scrollbars OUTSIDE the grid */
+        #v-scrollbar {
+            position: absolute;
+            top: 24px;
+            bottom: 24px;
+            right: 0;
+            width: 16px;
+            background: #f0f0f0;
+            z-index: 20;
+        }
+        #h-scrollbar {
+            position: absolute;
+            left: 50px;
+            right: 16px;
+            bottom: 0;
+            height: 16px;
+            background: #f0f0f0;
+            z-index: 20;
+        }
+        .thumb {
+            position: absolute;
+            background: #b0b0b0;
+            border-radius: 8px;
+            cursor: pointer;
+            opacity: 0.8;
+        }
+        #v-scrollbar .thumb {
+            width: 100%;
+        }
+        #h-scrollbar .thumb {
+            height: 100%;
+        }
+        #statusBar {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 16px;
+            height: 24px;
+            background: #eee;
+            padding: 4px 12px;
+            font-family: monospace;
+            z-index: 30;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <canvas id="colHeaderCanvas"></canvas>
+        <canvas id="rowHeaderCanvas"></canvas>
+        <canvas id="mainGridCanvas"></canvas>
+    </div>
+    <div id="v-scrollbar"><div class="thumb"></div></div>
+    <div id="h-scrollbar"><div class="thumb"></div></div>
+    <div id="statusBar"></div>
+    <script src="app.js"></script>
+</body>
+</html>

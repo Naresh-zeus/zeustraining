@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quantum Navbar</title>
+    <link rel="stylesheet" href="dashboard.css">
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="logo-section">
+            <img src="assets/icons/logo used in header.svg" alt="Quantum Logo" class="logo-img" />
+        </div>
+
+        <div class="nav-menu" id="navMenu">
+            <a href="#" class="nav-item" onclick="setActiveNav(this)">DASHBOARD</a>
+            <a href="#" class="nav-item" onclick="setActiveNav(this)">CONTENT</a>
+            <a href="#" class="nav-item" onclick="setActiveNav(this)">USERS</a>
+            <a href="#" class="nav-item" onclick="setActiveNav(this)">REPORTS</a>
+            <a href="#" class="nav-item" onclick="setActiveNav(this)">ADMIN</a>
+        </div>
+
+        <div class="nav-actions">
+            <div class="Alert-icon">
+                <img src="assets/icons/alerts.svg" alt="Notifications" class="notification-svg" />
+                <div class="alert-badge">6</div>
+
+                <div class="Alert-dropdown" id="alertDropdown">
+                    <div class="alert-messages">
+                        <!-- Success notification -->
+                        <div class="notification-item success">
+                            <div class="notification-header">
+                                <span class="notification-title">License for Introduction to Algebra has been assigned
+                                    to
+                                    your school</span>
+                            </div>
+                            <span class="notification-date">15-Sep-2018 at 07:21 pm</span>
+                        </div>
+                        <!-- Alert notification -->
+                        <div class="notification-item alert">
+                            <div class="notification-header">
+                                <span class="notification-title">Lesson 3 Practice Worksheet overdue for Amy
+                                    Santiago</span>
+                            </div>
+                            <div class="notification-content">
+                                Course: Advanced Mathematics
+                            </div>
+                            <span class="notification-date">15-Sep-2018 at 05:21 pm</span>
+                        </div>
+                        <!-- Regular notification -->
+                        <div class="notification-item success">
+                            <div class="notification-header">
+                                <span class="notification-title">23 new students created</span>
+                            </div>
+                            <span class="notification-date">15-Sep-2018 at 01:21 pm</span>
+                        </div>
+                        <!-- Additional notifications -->
+                        <div class="notification-item alert">
+                            <div class="notification-header">
+                                <span class="notification-title">Quiz submission pending for John Doe</span>
+                            </div>
+                            <div class="notification-content">
+                                Course: Physics 101
+                            </div>
+                            <span class="notification-date">15-Sep-2018 at 12:21 pm</span>
+                        </div>
+                        <div class="notification-item success">
+                            <div class="notification-header">
+                                <span class="notification-title">Course materials updated</span>
+                            </div>
+                            <span class="notification-date">15-Sep-2018 at 11:21 am</span>
+                        </div>
+                        <div class="notification-item alert">
+                            <div class="notification-header">
+                                <span class="notification-title">Assignment deadline approaching</span>
+                            </div>
+                            <div class="notification-content">
+                                Course: Chemistry Basics
+                            </div>
+                            <span class="notification-date">15-Sep-2018 at 10:21 am</span>
+                        </div>
+                        <div class="notification-item success">
+                            <div class="notification-header">
+                                <span class="notification-title">New course resources available</span>
+                            </div>
+                            <span class="notification-date">15-Sep-2018 at 09:21 am</span>
+                        </div>
+                    </div>
+                    <div class="notification-footer">
+                        <a href="#" class="notification-action">SHOW ALL</a>
+                    </div>
+                </div>
+            </div>
+            <div class="notification-icon">
+                <img src="assets/icons/announcements.svg" alt="Notifications" class="notification-svg" />
+                <div class="notification-badge">6</div>
+                <div class="notification-dropdown" id="notificationDropdown">
+                    <div class="notification-messages">
+                        <div class="notification-item success">
+                            <div class="notification-header">
+                                <span class="notification-title">PA: Wilson Kumar</span>
+                            </div>
+                            <div class="notification-content">
+                                No classes will be held on 21st Nov
+                            </div>
+                            <span class="notification-date">15-Sep-2018 at 07:21 pm</span>
+                        </div>
+                        <div class="notification-item alert">
+                            <div class="notification-header">
+                                <span class="notification-title">Guest lecture on Geometry</span>
+                            </div>
+                            <div class="notification-content">
+                                Course: Mathematics 101
+                            </div>
+                            <span class="notification-date">15-Sep-2018 at 06:21 pm</span>
+                        </div>
+                        <div class="notification-item success">
+                            <div class="notification-header">
+                                <span class="notification-title">Additional course materials available</span>
+                            </div>
+                            <div class="notification-content">
+                                Course: Physics Advanced
+                            </div>
+                            <span class="notification-date">15-Sep-2018 at 05:21 pm</span>
+                        </div>
+                        <div class="notification-item alert">
+                            <div class="notification-header">
+                                <span class="notification-title">No classes will be held on 25th Dec</span>
+                            </div>
+                            <div class="notification-content">
+                                Holiday Notice
+                            </div>
+                            <span class="notification-date">15-Sep-2018 at 04:21 pm</span>
+                        </div>
+                        <div class="notification-item success">
+                            <div class="notification-header">
+                                <span class="notification-title">Parent-Teacher Meeting</span>
+                            </div>
+                            <div class="notification-content">
+                                Schedule: 28th Dec, 2pm
+                            </div>
+                            <span class="notification-date">15-Sep-2018 at 03:21 pm</span>
+                        </div>
+                        <div class="notification-item alert">
+                            <div class="notification-header">
+                                <span class="notification-title">Exam Schedule Updated</span>
+                            </div>
+                            <div class="notification-content">
+                                Check revised dates
+                            </div>
+                            <span class="notification-date">15-Sep-2018 at 02:21 pm</span>
+                        </div>
+                        <div class="notification-item success">
+                            <div class="notification-header">
+                                <span class="notification-title">Extra Classes Scheduled</span>
+                            </div>
+                            <div class="notification-content">
+                                Subject: Chemistry
+                            </div>
+                            <span class="notification-date">15-Sep-2018 at 01:21 pm</span>
+                        </div>
+                    </div>
+                    <div class="notification-footer">
+                        <a href="#" class="notification-action">SHOW ALL</a>
+                        <a href="#" class="notification-action">CREATE NEW</a>
+                    </div>
+                </div>
+            </div>
+            <div class="user-avatar">
+                <div class="status-label">T</div>
+                <img src="assets\images\imageMask-1.png" alt="User Avatar" class="avatar-image">
+            </div>
+            <button class="hamburger-button" onclick="toggleNavMenu()">
+                <img src="assets/icons/hamburger-menu.svg" alt="Menu" class="hamburger-icon" />
+            </button>
+
+            <div class="nav-dropdown" id="navDropdown">
+                <a href="#" class="dropdown-item " onclick="setActiveDropdown(this)">DASHBOARD</a>
+                <div class="dropdown-divider"></div>
+                <a href="#" class="dropdown-item has-arrow" onclick="toggleSubmenu(this)">
+                    <span>CONTENT</span>
+                    <svg class="dropdown-arrow" viewBox="0 0 24 24">
+                        <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                    </svg>
+                </a>
+                <a href="#" class="dropdown-item sub-item" onclick="setActiveDropdown(this)">COURSE CATALOG</a>
+                <div class="dropdown-divider"></div>
+                <a href="#" class="dropdown-item has-arrow" onclick="toggleSubmenu(this)">
+                    <span>USERS</span>
+                    <svg class="dropdown-arrow" viewBox="0 0 24 24">
+                        <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                    </svg>
+                </a>
+                <div class="dropdown-divider"></div>
+                <a href="#" class="dropdown-item has-arrow" onclick="toggleSubmenu(this)">
+                    <span>REPORTS</span>
+                    <svg class="dropdown-arrow" viewBox="0 0 24 24">
+                        <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                    </svg>
+                </a>
+                <div class="dropdown-divider"></div>
+                <a href="#" class="dropdown-item has-arrow" onclick="toggleSubmenu(this)">
+                    <span>ADMIN</span>
+                    <svg class="dropdown-arrow" viewBox="0 0 24 24">
+                        <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </nav>
+    <div class="navbar-underline"></div>
+
+    <div class="selector-container">
+        <div class="selector-tabs">
+            <div class="tab active" onclick="selectTab(this, 'courses')">
+                <div class="tab-icon">
+                    <img src="assets/icons/courses.svg" alt="Courses" class="tab-svg-icon" />
+                </div>
+                <div class="tab-content">
+                    <div class="tab-label">4 Courses</div>
+                </div>
+            </div>
+            <div class="tab" onclick="selectTab(this, 'classes')">
+                <div class="tab-icon">
+                    <img src="assets/icons/classes.svg" alt="Classes" class="tab-svg-icon" />
+                </div>
+                <div class="tab-content">
+                    <div class="tab-label">4 Classes</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="sort-container">
+        <div class="showing-text">
+            Showing <span id="showing-count">4</span> of <span id="total-count">4</span> courses
+        </div>
+
+        <div class="sort-section">
+            <span class="sort-label">Sort By:</span>
+            <div class="sort-dropdown">
+                <button class="dropdown-button" onclick="toggleDropdown()">
+                    <span id="selected-sort">Course Name</span>
+                    <div class="dropdown-arrow"></div>
+                </button>
+            </div>
+            <div class="sort-svg-icon-container">
+                <img src="assets/icons/sort.svg" alt="Sort Order" class="sort-svg-icon" />
+            </div>
+        </div>
+    </div>
+
+    <div class="cards-container">
+        <!-- Card 1 -->
+    </div>
+
+    <div class="footer-links">
+        <a href="#">About</a>
+        <span class="footer-separator-links"></span>
+        <a href="#">Contact Us</a>
+    </div>
+
+    <div class="footer-company">
+        <div class="footer-company-content">
+            <img src="assets/icons/logo used in footer.svg" alt="Quantum Logo" class="footer-logo">
+            <span class="footer-separator"></span>
+            <span class="footer-copyright">
+                Copyright © 2020-2021 Zeus Systems Pvt. Ltd. All rights reserved.
+            </span>
+        </div>
+    </div>
+
+    <script src="dashboard.js"></script>
+    <script src="courses.json"></script>
+</body>
+
+</html>
