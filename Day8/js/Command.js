@@ -22,6 +22,7 @@ export class EditCellCommand extends Command {
     }
 }
 
+
 export class ResizeColumnCommand extends Command {
     constructor(grid, col, oldWidth, newWidth) {
         super();
@@ -40,6 +41,7 @@ export class ResizeColumnCommand extends Command {
     }
 }
 
+
 export class ResizeRowCommand extends Command {
     constructor(grid, row, oldHeight, newHeight) {
         super();
@@ -55,5 +57,6 @@ export class ResizeRowCommand extends Command {
     undo() {
         this.grid.rows[this.row].height = this.oldHeight;
         this.grid.renderAll();
+        console.log('HEllo');
     }
 }

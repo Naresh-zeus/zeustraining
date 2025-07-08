@@ -21,43 +21,50 @@ function excelColumnName(n) {
 // --- Scrollbar Setup ---
 const vScrollbar = document.getElementById('v-scrollbar');
 const hScrollbar = document.getElementById('h-scrollbar');
+
+// Create thumb elements
 const vThumb = document.createElement('div');
 vThumb.className = 'thumb';
 vScrollbar.appendChild(vThumb);
+
 const hThumb = document.createElement('div');
 hThumb.className = 'thumb';
 hScrollbar.appendChild(hThumb);
 
-const verticalScrollBar = new ScrollBar({
-    orientation: 'vertical',
-    grid,
-    canvas: mainGridCanvas,
-    scrollbarElem: vScrollbar,
-    thumbElem: vThumb,
-    getTotalSize: () => grid.rows.reduce((sum, row) => sum + row.height, 0),
-    getVisibleSize: () => mainGridCanvas.height,
-    getScroll: () => grid.scrollY,
-    setScroll: val => { grid.scrollY = val; }
-});
+// Helper to get total grid size
+function getTotalGridHeight() {
+    return grid.rows.reduce((sum, row) => sum + row.height, 0);
+}
+function getTotalGridWidth() {
+    return grid.columns.reduce((sum, col) => sum + col.width, 0);
+}
 
-const horizontalScrollBar = new ScrollBar({
-    orientation: 'horizontal',
-    grid,
-    canvas: mainGridCanvas,
-    scrollbarElem: hScrollbar,
-    thumbElem: hThumb,
-    getTotalSize: () => grid.columns.reduce((sum, col) => sum + col.width, 0),
-    getVisibleSize: () => mainGridCanvas.width,
-    getScroll: () => grid.scrollX,
-    setScroll: val => { grid.scrollX = val; }
-});
+// Update scrollbar thumbs
+function updateScrollbars() {
+    // Vertical
+    const visibleHeight = mainGridCanvas.height;
+    const totalHeight = getTotalGridHeight();
+    const vRatio = visibleHeight / totalHeight;
+    const vThumbHeight = Math.max(30, visibleHeight * vRatio);
+    const vMaxScroll = Math.max(0, totalHeight - visibleHeight);
+    const vThumbTop = vMaxScroll ? (grid.scrollY / vMaxScroll) * (visibleHeight - vThumbHeight) : 0;
+    vThumb.style.height = vThumbHeight + 'px';
+    vThumb.style.top = vThumbTop + 'px';
 
-// Update scrollbars after each render
+    // Horizontal
+    const visibleWidth = mainGridCanvas.width;
+    const totalWidth = getTotalGridWidth();
+    const hRatio = visibleWidth / totalWidth;
+    const hThumbWidth = Math.max(30, visibleWidth * hRatio);
+    const hMaxScroll = Math.max(0, totalWidth - visibleWidth);
+    const hThumbLeft = hMaxScroll ? (grid.scrollX / hMaxScroll) * (visibleWidth - hThumbWidth) : 0;
+    hThumb.style.width = hThumbWidth + 'px';
+    hThumb.style.left = hThumbLeft + 'px';
+}
 grid.renderAll = (function (orig) {
     return function () {
         orig.call(grid);
-        verticalScrollBar.update();
-        horizontalScrollBar.update();
+        updateScrollbars();
     };
 })(grid.renderAll);
 
@@ -168,25 +175,42 @@ function resizeGrid() {
     container.style.width = width + 'px';
     container.style.height = height + 'px';
 
-    // Set canvas sizes (DPR = 1 for sharp lines)
+    // Use devicePixelRatio for sharp rendering
+    const dpr = window.devicePixelRatio || 1;
+
+    // Set canvas sizes (physical pixels)
     const colHeaderCanvas = document.getElementById('colHeaderCanvas');
     const rowHeaderCanvas = document.getElementById('rowHeaderCanvas');
     const mainGridCanvas = document.getElementById('mainGridCanvas');
 
-    colHeaderCanvas.width = width - rowHeaderWidth - scrollbarSize;
-    colHeaderCanvas.height = colHeaderHeight;
-    colHeaderCanvas.style.width = (width - rowHeaderWidth - scrollbarSize) + 'px';
-    colHeaderCanvas.style.height = colHeaderHeight + 'px';
+    // Logical sizes
+    const colHeaderLogicalWidth = width - rowHeaderWidth - scrollbarSize;
+    const colHeaderLogicalHeight = colHeaderHeight;
+    const rowHeaderLogicalWidth = rowHeaderWidth;
+    const rowHeaderLogicalHeight = height - colHeaderHeight - scrollbarSize - statusBarHeight;
+    const mainGridLogicalWidth = width - rowHeaderWidth - scrollbarSize;
+    const mainGridLogicalHeight = height - colHeaderHeight - scrollbarSize - statusBarHeight;
 
-    rowHeaderCanvas.width = rowHeaderWidth;
-    rowHeaderCanvas.height = height - colHeaderHeight - scrollbarSize - statusBarHeight;
-    rowHeaderCanvas.style.width = rowHeaderWidth + 'px';
-    rowHeaderCanvas.style.height = (height - colHeaderHeight - scrollbarSize - statusBarHeight) + 'px';
+    // Set canvas pixel sizes for high-DPI
+    colHeaderCanvas.width = colHeaderLogicalWidth * dpr;
+    colHeaderCanvas.height = colHeaderLogicalHeight * dpr;
+    rowHeaderCanvas.width = rowHeaderLogicalWidth * dpr;
+    rowHeaderCanvas.height = rowHeaderLogicalHeight * dpr;
+    mainGridCanvas.width = mainGridLogicalWidth * dpr;
+    mainGridCanvas.height = mainGridLogicalHeight * dpr;
 
-    mainGridCanvas.width = width - rowHeaderWidth - scrollbarSize;
-    mainGridCanvas.height = height - colHeaderHeight - scrollbarSize - statusBarHeight;
-    mainGridCanvas.style.width = (width - rowHeaderWidth - scrollbarSize) + 'px';
-    mainGridCanvas.style.height = (height - colHeaderHeight - scrollbarSize - statusBarHeight) + 'px';
+    // Set CSS sizes (logical px)
+    colHeaderCanvas.style.width = colHeaderLogicalWidth + 'px';
+    colHeaderCanvas.style.height = colHeaderLogicalHeight + 'px';
+    rowHeaderCanvas.style.width = rowHeaderLogicalWidth + 'px';
+    rowHeaderCanvas.style.height = rowHeaderLogicalHeight + 'px';
+    mainGridCanvas.style.width = mainGridLogicalWidth + 'px';
+    mainGridCanvas.style.height = mainGridLogicalHeight + 'px';
+
+    // Scale contexts for sharpness
+    colHeaderCanvas.getContext('2d').setTransform(dpr, 0, 0, dpr, 0, 0);
+    rowHeaderCanvas.getContext('2d').setTransform(dpr, 0, 0, dpr, 0, 0);
+    mainGridCanvas.getContext('2d').setTransform(dpr, 0, 0, dpr, 0, 0);
 
     // Set positions
     colHeaderCanvas.style.left = rowHeaderWidth + 'px';

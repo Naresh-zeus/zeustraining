@@ -1,5 +1,4 @@
 import { Cell } from './Cell.js';
-
 export class Row {
     constructor(index, colCount) {
         this.index = index;
