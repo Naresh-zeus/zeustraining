@@ -1,66 +1,75 @@
+
 import { Grid } from './Grid.js';
-import { ScrollBar } from './ScrollBar.js';
+import { ScrollBar } from './Scrollbar.js';
 
 // --- Setup canvases and grid ---
-const colHeaderCanvas = document.getElementById('colHeaderCanvas');
-const rowHeaderCanvas = document.getElementById('rowHeaderCanvas');
-const mainGridCanvas = document.getElementById('mainGridCanvas');
-const statusBar = document.getElementById('statusBar');
+// Get references to the header and main grid canvases
+const colHeaderCanvas = document.getElementById('colHeaderCanvas'); // Top column header canvas
+const rowHeaderCanvas = document.getElementById('rowHeaderCanvas'); // Left row header canvas
+const mainGridCanvas = document.getElementById('mainGridCanvas');   // Main grid canvas
+// const statusBar = document.getElementById('statusBar');             // Status bar element
 
+// Create the main grid instance with 10,000 columns and 500 rows
 const grid = new Grid(mainGridCanvas, colHeaderCanvas, rowHeaderCanvas, 10000, 500);
 
-function excelColumnName(n) {
-    let name = "";
-    while (n >= 0) {
-        name = String.fromCharCode((n % 26) + 65) + name;
-        n = Math.floor(n / 26) - 1;
-    }
-    return name;
-}
-
 // --- Scrollbar Setup ---
+// Get references to the vertical and horizontal scrollbar containers
 const vScrollbar = document.getElementById('v-scrollbar');
 const hScrollbar = document.getElementById('h-scrollbar');
 
-// Create thumb elements
+// Create and append the vertical scrollbar thumb element
 const vThumb = document.createElement('div');
 vThumb.className = 'thumb';
 vScrollbar.appendChild(vThumb);
 
+// Create and append the horizontal scrollbar thumb element
 const hThumb = document.createElement('div');
 hThumb.className = 'thumb';
 hScrollbar.appendChild(hThumb);
 
-// Helper to get total grid size
+// --- Helper functions to get total grid size ---
+/**
+ * Calculates the total height of all rows in the grid.
+ * @returns {number} Total grid height in pixels
+ */
 function getTotalGridHeight() {
     return grid.rows.reduce((sum, row) => sum + row.height, 0);
 }
+/**
+ * Calculates the total width of all columns in the grid.
+ * @returns {number} Total grid width in pixels
+ */
 function getTotalGridWidth() {
     return grid.columns.reduce((sum, col) => sum + col.width, 0);
 }
 
-// Update scrollbar thumbs
+// --- Update scrollbar thumbs to reflect grid scroll state ---
+/**
+ * Updates the size and position of the scrollbar thumbs based on the grid's scroll position and visible area.
+ */
 function updateScrollbars() {
-    // Vertical
+    // Vertical scrollbar
     const visibleHeight = mainGridCanvas.height;
     const totalHeight = getTotalGridHeight();
     const vRatio = visibleHeight / totalHeight;
-    const vThumbHeight = Math.max(30, visibleHeight * vRatio);
+    const vThumbHeight = Math.max(30, visibleHeight * vRatio); // Minimum thumb size
     const vMaxScroll = Math.max(0, totalHeight - visibleHeight);
     const vThumbTop = vMaxScroll ? (grid.scrollY / vMaxScroll) * (visibleHeight - vThumbHeight) : 0;
     vThumb.style.height = vThumbHeight + 'px';
     vThumb.style.top = vThumbTop + 'px';
 
-    // Horizontal
+    // Horizontal scrollbar
     const visibleWidth = mainGridCanvas.width;
     const totalWidth = getTotalGridWidth();
     const hRatio = visibleWidth / totalWidth;
-    const hThumbWidth = Math.max(30, visibleWidth * hRatio);
+    const hThumbWidth = Math.max(30, visibleWidth * hRatio); // Minimum thumb size
     const hMaxScroll = Math.max(0, totalWidth - visibleWidth);
     const hThumbLeft = hMaxScroll ? (grid.scrollX / hMaxScroll) * (visibleWidth - hThumbWidth) : 0;
     hThumb.style.width = hThumbWidth + 'px';
     hThumb.style.left = hThumbLeft + 'px';
 }
+
+// Patch grid.renderAll to also update scrollbars after rendering
 grid.renderAll = (function (orig) {
     return function () {
         orig.call(grid);
@@ -68,14 +77,21 @@ grid.renderAll = (function (orig) {
     };
 })(grid.renderAll);
 
-// Drag logic for vertical scrollbar
+
+// --- Scrollbar drag logic ---
+
+// Vertical scrollbar drag state variables
 let vDragging = false, vDragStartY = 0, vStartScrollY = 0;
+
+// Start vertical thumb drag
 vThumb.addEventListener('mousedown', e => {
     vDragging = true;
     vDragStartY = e.clientY;
     vStartScrollY = grid.scrollY;
-    document.body.style.userSelect = 'none';
+    document.body.style.userSelect = 'none'; // Prevent text selection while dragging
 });
+
+// Handle vertical thumb drag movement
 document.addEventListener('mousemove', e => {
     if (vDragging) {
         const visibleHeight = mainGridCanvas.height;
@@ -90,19 +106,25 @@ document.addEventListener('mousemove', e => {
         }
     }
 });
+
+// End vertical thumb drag
 document.addEventListener('mouseup', () => {
     vDragging = false;
     document.body.style.userSelect = '';
 });
 
-// Drag logic for horizontal scrollbar
+// Horizontal scrollbar drag state variables
 let hDragging = false, hDragStartX = 0, hStartScrollX = 0;
+
+// Start horizontal thumb drag
 hThumb.addEventListener('mousedown', e => {
     hDragging = true;
     hDragStartX = e.clientX;
     hStartScrollX = grid.scrollX;
-    document.body.style.userSelect = 'none';
+    document.body.style.userSelect = 'none'; // Prevent text selection while dragging
 });
+
+// Handle horizontal thumb drag movement
 document.addEventListener('mousemove', e => {
     if (hDragging) {
         const visibleWidth = mainGridCanvas.width;
@@ -117,12 +139,16 @@ document.addEventListener('mousemove', e => {
         }
     }
 });
+
+// End horizontal thumb drag
 document.addEventListener('mouseup', () => {
     hDragging = false;
     document.body.style.userSelect = '';
 });
 
-// Click on scrollbar track to jump
+// --- Scrollbar track click logic ---
+
+// Click on vertical scrollbar track to jump scroll position
 vScrollbar.addEventListener('mousedown', e => {
     if (e.target !== vThumb) {
         const rect = vScrollbar.getBoundingClientRect();
@@ -137,6 +163,8 @@ vScrollbar.addEventListener('mousedown', e => {
         grid.renderAll();
     }
 });
+
+// Click on horizontal scrollbar track to jump scroll position
 hScrollbar.addEventListener('mousedown', e => {
     if (e.target !== hThumb) {
         const rect = hScrollbar.getBoundingClientRect();
@@ -152,9 +180,14 @@ hScrollbar.addEventListener('mousedown', e => {
     }
 });
 
-// Initial update
+// --- Initial scrollbar update ---
 updateScrollbars();
 
+// --- Responsive grid/canvas resizing logic ---
+/**
+ * Resizes the grid and all canvases to fit the window, maintaining sharp rendering on high-DPI screens.
+ * Also repositions scrollbars and status bar.
+ */
 function resizeGrid() {
     const container = document.getElementById('container');
     const vScrollbar = document.getElementById('v-scrollbar');
@@ -242,10 +275,15 @@ function resizeGrid() {
     // Rerender grid and scrollbars
     if (typeof grid !== 'undefined' && grid.renderAll) grid.renderAll();
 }
+
+// Listen for window resize events to keep grid responsive
 window.addEventListener('resize', resizeGrid);
 resizeGrid();
 
-// Generate 50,000 records
+// --- Example data generation (not loaded by default) ---
+/**
+ * Example: Generate 50,000 records for grid demo/testing
+ */
 const data = [];
 for (let i = 1; i <= 50000; i++) {
     data.push({
@@ -257,5 +295,5 @@ for (let i = 1; i <= 50000; i++) {
     });
 }
 
-// Load into grid
-grid.loadData(data);
+// To load data into the grid, uncomment the following line:
+// grid.loadData(data);

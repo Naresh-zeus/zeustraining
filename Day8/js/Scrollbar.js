@@ -17,6 +17,7 @@ export class ScrollBar {
         this.initEvents();
     }
 
+
     update() {
         const visible = this.getVisibleSize();
         const total = this.getTotalSize();
